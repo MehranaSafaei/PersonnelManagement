@@ -29,7 +29,7 @@ public class PersonnelDao {
 
     public PersonnelDao() {
         try {
-            SimpleConnectionPool connectionPool = new SimpleConnectionPool(); // create connection pool
+            SimpleConnectionPool connectionPool = new SimpleConnectionPool();
         } catch (SQLException e) {
             throw new ExceptionInInitializerError("Failed to initialize org.example.connection pool: " + e.getMessage());
         }
