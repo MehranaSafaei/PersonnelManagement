@@ -48,7 +48,7 @@ public class LeaveDao {
             ps.setDate(2, new java.sql.Date(entity.getEndDate().getTime()));
             ps.setString(3, entity.getDescription());
             ps.setLong(4, entity.getPersonnelId()); // Set the employee ID value directly
-            ps.setDate(5, Date.valueOf(entity.getLoginTime().toLocalDate().));
+            ps.setDate(5, Date.valueOf(entity.getLoginTime().toLocalDate()));
 
             ps.executeUpdate();
 

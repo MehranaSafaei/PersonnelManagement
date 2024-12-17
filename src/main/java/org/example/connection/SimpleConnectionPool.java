@@ -15,6 +15,7 @@ public class SimpleConnectionPool {
     private final String PASSWORD = "1234"; // password postgres DB
 //    private final String PASSWORD = "Aa@123456"; // password MySQL DB
 
+//    private static final String PROPERTIES_FILE = "database.properties";
     private static final List<Connection> availableConnections = new ArrayList<>();
     private static final List<Connection> usedConnections = new ArrayList<>();
     private final int INITIAL_POOL_SIZE = 5;
