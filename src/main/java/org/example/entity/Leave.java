@@ -10,7 +10,7 @@ public class Leave {
     private Date endDate;
     private String description;
     private Long personnelId;
-    private LocalDateTime loginTime;  // اضافه کردن فیلد زمان ورود به سیستم
+    private LocalDateTime loginTime;
 
     public Leave() {
         super();

@@ -4,10 +4,7 @@ package org.example.dao;
 import org.example.connection.SimpleConnectionPool;
 import org.example.entity.Leave;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +18,7 @@ public class LeaveDao {
 //    private static final String SELECT_ALL = "SELECT * FROM Leaves";
 //    private static final String SELECT_BY_ID = "SELECT * FROM Leaves WHERE id = ?";
 
-    private static final String INSERT = "INSERT INTO leave (startDate, endDate, description, personnelId) VALUES (?, ?, ?, ?)";
+    private static final String INSERT = "INSERT INTO leave (startDate, endDate, description, personnelId, loginTime) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE leave SET startDate = ?, endDate = ?, description = ? WHERE id = ?";
     private static final String DELETE = "DELETE FROM leave WHERE id = ?";
     private static final String SELECT_BY_USERNAME = "SELECT * FROM leave WHERE username = ?";
@@ -51,6 +48,7 @@ public class LeaveDao {
             ps.setDate(2, new java.sql.Date(entity.getEndDate().getTime()));
             ps.setString(3, entity.getDescription());
             ps.setLong(4, entity.getPersonnelId()); // Set the employee ID value directly
+            ps.setDate(5, Date.valueOf(entity.getLoginTime().toLocalDate().));
 
             ps.executeUpdate();
 
