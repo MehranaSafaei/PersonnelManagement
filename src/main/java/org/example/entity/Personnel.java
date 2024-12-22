@@ -13,6 +13,8 @@ public class Personnel {
     }
 
     public Personnel(Long id, String userName, String mobile, Long personnelCode, String email) {
+        this(); //call Personnel()
+        System.out.println("3 arguments constructor is running");
         this.id = id;
         this.userName = userName;
         this.mobile = mobile;

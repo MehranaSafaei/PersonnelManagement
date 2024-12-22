@@ -5,13 +5,15 @@ import org.example.connection.SimpleConnectionPool;
 import org.example.entity.Leave;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
 public class LeaveDao {
-/*انیار قرداد نقلیه */
+    /*انیار قرداد نقلیه */
 
 //    private String INSERT = "INSERT INTO Leaves (startDate, endDate, description, personelId) VALUES (?, ?, ?, ?)";
 //    private String SELECT_BY_USERNAME = "SELECT * FROM Leaves WHERE username = ?";
@@ -41,11 +43,10 @@ public class LeaveDao {
             throw new IllegalArgumentException("Personnel ID cannot be null.");
         }
 
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            ps.setDate(1, new java.sql.Date(entity.getStartDate().getTime()));
-            ps.setDate(2, new java.sql.Date(entity.getEndDate().getTime()));
+            ps.setDate(1,Date.valueOf(entity.getStartDate()));
+            ps.setDate(2, Date.valueOf(entity.getStartDate()));
             ps.setString(3, entity.getDescription());
             ps.setLong(4, entity.getPersonnelId()); // Set the employee ID value directly
             ps.setDate(5, Date.valueOf(entity.getLoginTime().toLocalDate()));
@@ -63,8 +64,7 @@ public class LeaveDao {
 
 
     public Optional<Leave> getById(long id) {
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID);) {
+        try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID);) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Leave leave = mapResultSetToPersonnel(resultSet);
@@ -79,9 +79,7 @@ public class LeaveDao {
 
     public List<Leave> findAll() throws SQLException {
         List<Leave> leaveList = new ArrayList<>();
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_ALL);
-        ) {
+        try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement statement = connection.prepareStatement(SELECT_ALL)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Leave leave = mapResultSetToPersonnel(resultSet);
@@ -99,11 +97,10 @@ public class LeaveDao {
     }
 
     public Optional<Leave> update(Leave entity) throws SQLException {
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
+        try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
             preparedStatement.setString(1, entity.getDescription());
-            preparedStatement.setDate(2, new java.sql.Date(entity.getStartDate().getTime()));
-            preparedStatement.setDate(3, new java.sql.Date(entity.getEndDate().getTime()));
+            preparedStatement.setDate(2, Date.valueOf(entity.getStartDate()));
+            preparedStatement.setDate(3, Date.valueOf(entity.getEndDate()));
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return Optional.of(entity);
@@ -113,8 +110,7 @@ public class LeaveDao {
     }
 
     public void delete(Long id) {
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
+        try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE)) {
 
             statement.setLong(1, id); // Set the ID parameter
 
@@ -125,8 +121,7 @@ public class LeaveDao {
 
     public List<Leave> selectByUsername(String username) throws SQLException {
         List<Leave> leaves = new ArrayList<>();
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement ps = connection.prepareStatement(SELECT_BY_USERNAME)) {
+        try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_BY_USERNAME)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -140,8 +135,7 @@ public class LeaveDao {
     public List<Leave> findLeaveByPersonnelCode(Long personnelCode) throws SQLException {
         List<Leave> leaveList = new ArrayList<>();
 
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_BY_PERSONNEL_ID)) {
+        try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement statement = connection.prepareStatement(SELECT_BY_PERSONNEL_ID)) {
 
             statement.setLong(1, personnelCode);
 
@@ -151,8 +145,8 @@ public class LeaveDao {
                     leave.setId(resultSet.getInt("id"));
                     leave.setPersonnelId(resultSet.getLong("personnelCode"));
                     leave.setDescription(resultSet.getString("description"));
-                    leave.setStartDate(resultSet.getDate("startDate"));
-                    leave.setEndDate(resultSet.getDate("endDate"));
+                    leave.setStartDate(resultSet.getDate("startDate").toLocalDate());
+                    leave.setEndDate(resultSet.getDate("endDate").toLocalDate());
                     leaveList.add(leave);
                 }
             }
@@ -167,8 +161,7 @@ public class LeaveDao {
     public List<Leave> findLeaveByPersonnelId(Long personnelId) throws SQLException {
         List<Leave> leaveList = new ArrayList<>();
 
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_BY_PERSONNEL_ID)) {
+        try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement statement = connection.prepareStatement(SELECT_BY_PERSONNEL_ID)) {
 
             statement.setLong(1, personnelId);
 
@@ -178,8 +171,8 @@ public class LeaveDao {
                     leave.setId(resultSet.getInt("id"));
                     leave.setPersonnelId(resultSet.getLong("personnelId")); // Use personnelId instead of personnelCode
                     leave.setDescription(resultSet.getString("description"));
-                    leave.setStartDate(resultSet.getDate("startDate"));
-                    leave.setEndDate(resultSet.getDate("endDate"));
+                    leave.setStartDate(resultSet.getDate("startDate").toLocalDate());
+                    leave.setEndDate(resultSet.getDate("endDate").toLocalDate());
                     leaveList.add(leave);
                 }
             }
@@ -193,14 +186,22 @@ public class LeaveDao {
 
 
     private Leave mapResultSetToPersonnel(ResultSet resultSet) throws SQLException {
+        LocalDate startDate = resultSet.getDate("startDate").toLocalDate();
+        LocalDate endDate = resultSet.getDate("endDate").toLocalDate();
+
+        Timestamp loginTimeTimestamp = resultSet.getTimestamp("loginTime");
+        LocalDateTime loginTime = (loginTimeTimestamp != null) ? loginTimeTimestamp.toLocalDateTime() : null; //if
+
         return new Leave(
                 resultSet.getLong("id"),
-                resultSet.getDate("startDate"),
-                resultSet.getDate("endDate"),
+                startDate,
+                endDate,
                 resultSet.getString("description"),
-                resultSet.getLong("personnelId")
+                resultSet.getLong("personnelId"),
+                loginTime // Pass the LocalDateTime object
         );
     }
+
 
 }
 

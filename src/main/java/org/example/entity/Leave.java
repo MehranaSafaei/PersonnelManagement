@@ -1,13 +1,14 @@
 package org.example.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
 public class Leave {
     private long id;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
     private Long personnelId;
     private LocalDateTime loginTime;
@@ -17,13 +18,13 @@ public class Leave {
 
     }
 
-    public Leave(long id, Date startDate, Date endDate, String description, Long personnelId) {
+    public Leave(long id, LocalDate startDate, LocalDate endDate, String description, Long personnelId, LocalDateTime loginTime) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
         this.personnelId = personnelId;
-//        this.loginTime = loginTime;
+        this.loginTime = loginTime;
     }
 
     public long getId() {
@@ -34,19 +35,19 @@ public class Leave {
         this.id = id;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

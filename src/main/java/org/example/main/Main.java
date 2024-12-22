@@ -32,6 +32,7 @@ public class Main {
                 int choice = sc.nextInt();
                 sc.nextLine(); // Consume newline left by nextInt()
 
+                menu();
                 switch (choice) {
                     case 1:
                         insert(sc); //this method for adding information
@@ -213,8 +214,8 @@ public class Main {
         String description = sc.nextLine();
 
         Leave leave = new Leave();
-        leave.setStartDate(Date.valueOf(startDate));
-        leave.setEndDate(Date.valueOf(endDate));
+        leave.setStartDate(Date.valueOf(startDate).toLocalDate());
+        leave.setEndDate(Date.valueOf(endDate).toLocalDate());
 //        leave.setStartDate(Date.from(loginTime.atZone(ZoneId.systemDefault()).toInstant()));
 //        leave.setEndDate(Date.from(loginTime.atZone(ZoneId.systemDefault()).toInstant()));
         leave.setDescription(description);
@@ -230,9 +231,9 @@ public class Main {
     public static List<Leave> viewList(Scanner sc) throws SQLException {
         LeaveService leaveService = new LeaveService();
         List<Leave> leaveList = leaveService.findAll();
-        System.out.println("Start Date - End Date - Description - Personnel ID");
+        System.out.println("Start Date - End Date - Description - Personnel ID - loginTime");
         for (Leave leave : leaveList) {
-            System.out.println(leave.getStartDate() + " - " + leave.getEndDate() + " - " + leave.getDescription() + " - " + leave.getPersonnelId());
+            System.out.println(leave.getStartDate() + " - " + leave.getEndDate() + " - " + leave.getDescription() + " - " + leave.getPersonnelId() + " - " + leave.getLoginTime());
         }
         return leaveList;
     }
