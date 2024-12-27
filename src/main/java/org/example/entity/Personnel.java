@@ -1,13 +1,33 @@
 package org.example.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "Personnel")
 public class Personnel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Size(max = 50, message = "User name must be less than 50 characters")
     private String userName;
+
+    @Size(max = 15, message = "Mobile number must be less than 15 characters")
     private String mobile;
+
     private Long personnelCode;
+
+    @Size(max = 100, message = "Email must be less than 100 characters")
     private String email;
+
+    @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Leave> leaves;
+
 
     public Personnel() {
     }
@@ -64,13 +84,7 @@ public class Personnel {
 
     @Override
     public String toString() {
-        return "Personnel{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", personnelCode=" + personnelCode + '\'' +
-                ", email='" + email +
-                '}';
+        return "Personnel{" + "id=" + id + ", userName='" + userName + '\'' + ", mobile='" + mobile + '\'' + ", personnelCode=" + personnelCode + '\'' + ", email='" + email + '}';
     }
 
     @Override
