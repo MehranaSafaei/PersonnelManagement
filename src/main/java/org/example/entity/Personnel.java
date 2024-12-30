@@ -23,6 +23,7 @@ public class Personnel {
     private Long personnelCode;
 
     @Size(max = 100, message = "Email must be less than 100 characters")
+    @NotNull
     private String email;
 
     @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL, orphanRemoval = true)

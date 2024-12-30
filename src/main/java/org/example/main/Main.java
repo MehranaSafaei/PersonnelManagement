@@ -108,6 +108,7 @@ public class Main {
         Personnel personnel = new Personnel();
         personnel.setUserName(userName);
         personnel.setMobile(mobile);
+        personnel.setEmail(email);
         personnel.setPersonnelCode((long) personnelCode);
         System.out.println("Your information has been saved: " + userName + " - " + mobile + " - " + personnelCode + " - " + email);
         return personnelService.insert(personnel);
@@ -219,7 +220,7 @@ public class Main {
 //        leave.setStartDate(Date.from(loginTime.atZone(ZoneId.systemDefault()).toInstant()));
 //        leave.setEndDate(Date.from(loginTime.atZone(ZoneId.systemDefault()).toInstant()));
         leave.setDescription(description);
-        leave.setPersonnelId(p.getId());
+        leave.setPersonnel(p);
         leave.setLoginTime(loginTime);
 
         LeaveService leaveService = new LeaveService();
@@ -233,7 +234,7 @@ public class Main {
         List<Leave> leaveList = leaveService.findAll();
         System.out.println("Start Date - End Date - Description - Personnel ID - loginTime");
         for (Leave leave : leaveList) {
-            System.out.println(leave.getStartDate() + " - " + leave.getEndDate() + " - " + leave.getDescription() + " - " + leave.getPersonnelId() + " - " + leave.getLoginTime());
+            System.out.println(leave.getStartDate() + " - " + leave.getEndDate() + " - " + leave.getDescription() + " - " + leave.getPersonnel() + " - " + leave.getLoginTime());
         }
         return leaveList;
     }

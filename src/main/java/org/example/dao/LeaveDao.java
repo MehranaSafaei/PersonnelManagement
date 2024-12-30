@@ -30,13 +30,13 @@ public class LeaveDao {
     private static final String SELECT_BY_ID = "SELECT * FROM leave WHERE id = ?";
     private static final String SELECT_BY_PERSONNEL_ID = "SELECT * FROM leave WHERE personnelId = ?";
 */
-    private static final String INSERT = "INSERT INTO personnel (userName, mobile, personnel_code, email) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE personnel SET userName = ?, mobile = ?, personnel_code = ?, email = ? WHERE id = ?";
-    private static final String DELETE = "DELETE FROM personnel WHERE id = ?";
-    private static final String SELECT_BY_ID = "SELECT * FROM personnel WHERE id = ?";
-    private static final String SELECT_BY_USERNAME = "SELECT * FROM leave WHERE username = ?";
-    private static final String SELECT_ALL = "SELECT * FROM personnel";
-    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnel WHERE personnel_code = ?";
+    private static final String INSERT = "INSERT INTO leaves (userName, mobile, personnel_code, email) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE leaves SET userName = ?, mobile = ?, personnel_code = ?, email = ? WHERE id = ?";
+    private static final String DELETE = "DELETE FROM leaves WHERE id = ?";
+    private static final String SELECT_BY_ID = "SELECT * FROM leavess WHERE id = ?";
+    private static final String SELECT_BY_USERNAME = "SELECT * FROM leaves WHERE username = ?";
+    private static final String SELECT_ALL = "SELECT * FROM leaves";
+    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM leaves WHERE personnel_code = ?";
 
     public LeaveDao() throws SQLException {
         try {
@@ -54,13 +54,13 @@ public class LeaveDao {
 
         try (Connection connection = SimpleConnectionPool.getConnection(); PreparedStatement ps = connection.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            ps.setDate(1,Date.valueOf(entity.getStartDate()));
+            ps.setDate(1, Date.valueOf(entity.getStartDate()));
             ps.setDate(2, Date.valueOf(entity.getEndDate()));
+            ps.setLong(3,entity.getPersonnel().getId());
             ps.setString(3, entity.getDescription());
 //            ps.setLong(4, entity.getPersonnelId()); // Set the employee ID value directly
             ps.setDate(5, Date.valueOf(entity.getLoginTime().toLocalDate()));
             ps.setLong(6, entity.getPersonnel().getId());
-
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
@@ -264,7 +264,6 @@ public class LeaveDao {
                 personnel                // Personnel object
         );
     }
-
 
 
 }

@@ -1,87 +1,72 @@
-    package org.example.service;
+package org.example.service;
 
+import jakarta.inject.Inject;
+import org.example.dao.LeaveDao;
+import org.example.dao.PersonnelDao;
+import org.example.entity.Leave;
+import org.example.entity.Personnel;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
-    import org.example.dao.LeaveDao;
-    import org.example.dao.PersonnelDao;
-    import org.example.entity.Leave;
-    import org.example.entity.Personnel;
+public class LeaveService {
 
-    import java.sql.SQLException;
-    import java.util.List;
-    import java.util.Optional;
+    @Inject
+    LeaveDao leaveDao;
 
-    public class LeaveService {
+    @Inject
+    PersonnelDao personnelDao;
 
+    public LeaveService() {
+    }
 
-        LeaveDao leaveDao = new LeaveDao();
-        PersonnelDao personnelDao = new PersonnelDao();
-
-        public LeaveService() throws SQLException {
-
-        }
-
-        public Optional<Leave> insert(Leave entity) throws SQLException {
+    public Optional<Leave> insert(Leave entity) {
+        try {
             return leaveDao.insert(entity);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error inserting leave: " + e.getMessage(), e);
         }
+    }
 
-     /*   public Optional<Leave> findById(int id) throws SQLException {
-            return leaveDao.findById(id);
-        }*/
-
-        public List<Leave> findAll() throws SQLException {
+    public List<Leave> findAll() {
+        try {
             return leaveDao.findAll();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching all leaves: " + e.getMessage(), e);
         }
+    }
 
-
-        public void addLeaveByPersonnelCode(long personnelCode, Leave leave) throws SQLException {
+    public void addLeaveByPersonnelCode(long personnelCode, Leave leave) {
+        try {
             Personnel personnel = personnelDao.findByPersonnelCode(personnelCode);
-            leave.setPersonnelId(personnel.getId());
+            if (personnel == null) {
+                throw new IllegalArgumentException("Personnel with code " + personnelCode + " not found");
+            }
+            leave.setPersonnel(personnel);
             leaveDao.insert(leave);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error adding leave for personnel: " + e.getMessage(), e);
         }
+    }
 
-        public List<Leave> findLeavesByPersonnelCode(Long personnelCode) throws SQLException {
+    public List<Leave> findLeavesByPersonnelCode(Long personnelCode) {
+        try {
             return leaveDao.findLeaveByPersonnelCode(personnelCode);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching leaves by personnel code: " + e.getMessage(), e);
         }
+    }
 
-        public List<Leave> findLeaveByUsername(String username) throws SQLException {
-            return leaveDao.getByName(username);
-        }
+    public List<Leave> findLeaveByUsername(String username) {
+        return leaveDao.getByName(username);
+    }
 
-        public List<Leave> findLeaveByPersonnelId(Long personnelId) throws SQLException {
+    public List<Leave> findLeaveByPersonnelId(Long personnelId) {
+        try {
             return leaveDao.findLeaveByPersonnelId(personnelId);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching leaves by personnel ID: " + e.getMessage(), e);
         }
     }
-
-    /*
-    package com.mehrana.test.service;
-
-    import com.mehrana.test.dao.LeaveDao;
-    import com.mehrana.test.entity.Leave;
-
-    import java.sql.SQLException;
-    import java.util.Optional;
-
-    public class LeaveService {
-
-
-        LeaveDao leaveDao = new LeaveDao();
-
-        public LeaveService() throws SQLException {
-
-        }
-
-        public Optional<Leave> insert(Leave entity) throws SQLException {
-            return leaveDao.insert(entity);
-        }
-
-        public Optional<Object> update(Optional<Leave> entity) throws SQLException {
-            return leaveDao.update(entity);
-        }
-
-
-        public Optional<Leave> findLeaveByPersonnelId(Long id) throws SQLException {
-            return leaveDao.findLeaveByPersonnelCode(id);
-        }
-    }
-    */
+}
