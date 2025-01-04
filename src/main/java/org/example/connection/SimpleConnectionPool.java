@@ -8,19 +8,19 @@ import java.util.List;
 
 public class SimpleConnectionPool {
 
-//    private final String URL = "jdbc:postgresql://localhost:5432/postgres"; // URL postgres DB
-        private final String URL = "jdbc:mysql://localhost:3306/mydb"; //URL MySQL DB
-//    private final String USER = "postgres"; // user postgres DB
-        private final String USER = "root"; // user MySQL DB
-//    private final String PASSWORD = "1234"; // password postgres DB
-    private final String PASSWORD = "Aa@123456"; // password MySQL DB
+    private final String URL = "jdbc:postgresql://localhost:5432/postgres"; // URL postgres DB
+    //        private final String URL = "jdbc:mysql://localhost:3306/mydb"; //URL MySQL DB
+    private final String USER = "postgres"; // user postgres DB
+    //        private final String USER = "root"; // user MySQL DB
+    private final String PASSWORD = "1234"; // password postgres DB
+//    private final String PASSWORD = "Aa@123456"; // password MySQL DB
 
-    private static final String PROPERTIES_FILE = "database.properties";
+    //    private static final String PROPERTIES_FILE = "database.properties";
     private static final List<Connection> availableConnections = new ArrayList<>();
     private static final List<Connection> usedConnections = new ArrayList<>();
-    private final int INITIAL_POOL_SIZE = 5;
 
     public SimpleConnectionPool() throws SQLException {
+        int INITIAL_POOL_SIZE = 10;
         for (int i = 0; i < INITIAL_POOL_SIZE; i++) {
             availableConnections.add(createConnection());
         }

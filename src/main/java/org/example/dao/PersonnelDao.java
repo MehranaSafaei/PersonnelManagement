@@ -1,23 +1,30 @@
 package org.example.dao;
 
 
+import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
 import org.example.connection.SimpleConnectionPool;
 import org.example.entity.Personnel;
 
+import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Stateless
 public class PersonnelDao {
 
-    private static final String INSERT = "INSERT INTO personnel (username, mobile, personnelCode, email) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE personnel SET username = ?, mobile = ?, personnelCode = ?, email = ? WHERE id = ?";
-    private static final String DELETE = "DELETE FROM personnel WHERE id = ?";
-    private static final String SELECT_ALL = "SELECT * FROM personnel";
-    private static final String SELECT_BY_ID = "SELECT * FROM personnel WHERE id = ?";
-    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnel WHERE username = ?";
-    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnel WHERE personnelCode = ?";
+    private static final String INSERT = "INSERT INTO personnels (username, mobile, personnelCode, email) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE personnels SET username = ?, mobile = ?, personnelCode = ?, email = ? WHERE id = ?";
+    private static final String DELETE = "DELETE FROM personnels WHERE id = ?";
+    private static final String SELECT_ALL = "SELECT * FROM personnels";
+    private static final String SELECT_BY_ID = "SELECT * FROM personnels WHERE id = ?";
+    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnels WHERE username = ?";
+    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnels WHERE personnelCode = ?";
+    private static final String SELECT_BY_EMAIL = "SELECT * FROM personnels WHERE email = ?";
+    private static  final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnels";
 //
 //    private static final String INSERT = "INSERT INTO personnel (username, mobile, personnelCode) VALUES (?, ?, ?)";
 //    private static final String UPDATE = "UPDATE personnel SET username = ?, mobile = ?, personnelCode = ? WHERE id = ?";
@@ -134,6 +141,22 @@ public class PersonnelDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int countAll() {
+        try (Connection connection = SimpleConnectionPool.getConnection();
+             PreparedStatement statement = connection.prepareStatement(COUNT_PERSONNEL);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1); // تعداد رکوردها
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 
 
