@@ -1,18 +1,15 @@
 package org.example.service;
 
 
-import jakarta.ejb.LocalBean;
-import jakarta.ejb.Stateless;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import org.example.dao.PersonnelDao;
 import org.example.entity.Personnel;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-@Stateless
+
+//@Stateless
 public class PersonnelService {
 
     @Inject
