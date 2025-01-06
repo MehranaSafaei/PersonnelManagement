@@ -111,7 +111,7 @@ public class Main {
         personnel.setEmail(email);
         personnel.setPersonnelCode((long) personnelCode);
         System.out.println("Your information has been saved: " + userName + " - " + mobile + " - " + personnelCode + " - " + email);
-        return personnelService.insert(personnel);
+        return personnelService.createPersonnel(personnel);
     }
 
     public static List<Personnel> select() throws SQLException {
@@ -241,36 +241,31 @@ public class Main {
 
     public static List<Leave> viewLeaveListByUsername(Scanner sc) throws SQLException {
         List<Leave> leaveList = new ArrayList<>();
-        try {
-            LeaveService leaveService = new LeaveService();
+        LeaveService leaveService = new LeaveService();
 
-            System.out.print("Enter your username: ");
-            String username = sc.nextLine();
+        System.out.print("Enter your username: ");
+        String username = sc.nextLine();
 
-            PersonnelService personnelService = new PersonnelService();
-            List<Personnel> personnel = personnelService.findPersonnelByName(username);
-            if (personnel.isEmpty()) {
-                System.out.println("No personnel found with the username: " + username);
-                return leaveList;
-            }
+        PersonnelService personnelService = new PersonnelService();
+        List<Personnel> personnel = personnelService.findPersonnelByName(username);
+        if (personnel.isEmpty()) {
+            System.out.println("No personnel found with the username: " + username);
+            return leaveList;
+        }
 //            if (personnel.isEmpty()) return System.out.println(STR."No personnel found with the username: \{username}"), leaveList;
 
-            Long personnelId = personnel.getFirst().getId();
-            leaveList = leaveService.findLeaveByPersonnelId(personnelId);
-            if (leaveList.isEmpty()) {
-                System.out.println("No leave records found for username: " + username);
-            } else {
-                System.out.println("Leave records for username: " + username + " - " + leaveList.size());
-                for (Leave leave : leaveList) {
-                    System.out.println(leave);
-                }
+        Long personnelId = personnel.getFirst().getId();
+        leaveList = leaveService.findLeaveByPersonnelId(personnelId);
+        if (leaveList.isEmpty()) {
+            System.out.println("No leave records found for username: " + username);
+        } else {
+            System.out.println("Leave records for username: " + username + " - " + leaveList.size());
+            for (Leave leave : leaveList) {
+                System.out.println(leave);
             }
+        }
 //            System.out.println(leaveList.isEmpty() ? STR."No leave records found for username: \{username}" : STR."Leave records for username: \{username}");
 //            if (!leaveList.isEmpty()) leaveList.forEach(System.out::println);
-        } catch (SQLException e) {
-            System.err.println("Error occurred while retrieving leave records: " + e.getMessage());
-            throw e;
-        }
         return leaveList;
     }
 }

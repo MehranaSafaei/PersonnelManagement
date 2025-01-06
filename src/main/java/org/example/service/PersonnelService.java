@@ -1,7 +1,11 @@
 package org.example.service;
 
 
+import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.example.dao.PersonnelDao;
 import org.example.entity.Personnel;
 
@@ -9,22 +13,17 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-//@Stateless
 public class PersonnelService {
 
     @Inject
     private PersonnelDao personnelDao;
 
     public PersonnelService() throws SQLException {
+        this.personnelDao = new PersonnelDao();
     }
 
-    public Optional<Personnel> insert(Personnel personnel) throws SQLException {
-        if (personnel != null && personnel.getId() != null && personnel.getId() > 0 && personnel.getId().describeConstable().isEmpty()){
-            personnelDao.insert(personnel);
-        }else {
-            return Optional.empty();
-        }
-        return Optional.of(personnel);
+    public Optional<Personnel> createPersonnel(Personnel personnel) throws SQLException {
+           return personnelDao.createPersonnel(personnel);
     }
 
     public List<Personnel> getListPersonnel() {

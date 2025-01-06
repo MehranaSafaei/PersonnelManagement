@@ -2,38 +2,40 @@ package org.example.dao;
 
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Dependent;
 import org.example.connection.SimpleConnectionPool;
 import org.example.entity.Personnel;
+import org.hibernate.Remove;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@ApplicationScoped
+//@ApplicationScoped
 public class PersonnelDao {
 
     //Postgres
-//    private static final String INSERT = "INSERT INTO personnels (username, mobile, personnelCode, email) VALUES (?, ?, ?, ?)";
-//    private static final String UPDATE = "UPDATE personnels SET username = ?, mobile = ?, personnelCode = ?, email = ? WHERE id = ?";
-//    private static final String DELETE = "DELETE FROM personnels WHERE id = ?";
-//    private static final String SELECT_ALL = "SELECT * FROM personnels";
-//    private static final String SELECT_BY_ID = "SELECT * FROM personnels WHERE id = ?";
-//    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnels WHERE username = ?";
-//    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnels WHERE personnelCode = ?";
-//    private static final String SELECT_BY_EMAIL = "SELECT * FROM personnels WHERE email = ?";
-//    private static  final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnels";
+    private static final String INSERT = "INSERT INTO personnels (username, mobile, personnelCode, email) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE personnels SET username = ?, mobile = ?, personnelCode = ?, email = ? WHERE id = ?";
+    private static final String DELETE = "DELETE FROM personnels WHERE id = ?";
+    private static final String SELECT_ALL = "SELECT * FROM personnels";
+    private static final String SELECT_BY_ID = "SELECT * FROM personnels WHERE id = ?";
+    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnels WHERE username = ?";
+    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnels WHERE personnelCode = ?";
+    private static final String SELECT_BY_EMAIL = "SELECT * FROM personnels WHERE email = ?";
+    private static  final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnels";
 
     //MySQL
-    private static final String INSERT = "INSERT INTO personnel (username, mobile, personnelCode, email) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE personnel SET username = ?, mobile = ?, personnelCode = ?, email = ? WHERE id = ?";
-    private static final String DELETE = "DELETE FROM personnel WHERE id = ?";
-    private static final String SELECT_ALL = "SELECT * FROM personnel";
-    private static final String SELECT_BY_ID = "SELECT * FROM personnel WHERE id = ?";
-    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnel WHERE username = ?";
-    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnel WHERE personnelCode = ?";
-    private static final String SELECT_BY_EMAIL = "SELECT * FROM personnel WHERE email = ?";
-    private static  final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnel";
+//    private static final String INSERT = "INSERT INTO personnel (username, mobile, personnelCode, email) VALUES (?, ?, ?, ?)";
+//    private static final String UPDATE = "UPDATE personnel SET username = ?, mobile = ?, personnelCode = ?, email = ? WHERE id = ?";
+//    private static final String DELETE = "DELETE FROM personnel WHERE id = ?";
+//    private static final String SELECT_ALL = "SELECT * FROM personnel";
+//    private static final String SELECT_BY_ID = "SELECT * FROM personnel WHERE id = ?";
+//    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnel WHERE username = ?";
+//    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnel WHERE personnelCode = ?";
+//    private static final String SELECT_BY_EMAIL = "SELECT * FROM personnel WHERE email = ?";
+//    private static  final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnel";
 //
 //    private static final String INSERT = "INSERT INTO personnel (username, mobile, personnelCode) VALUES (?, ?, ?)";
 //    private static final String UPDATE = "UPDATE personnel SET username = ?, mobile = ?, personnelCode = ? WHERE id = ?";
@@ -43,6 +45,7 @@ public class PersonnelDao {
 //    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnel WHERE username = ?";
 //    private static final String SELECT_BY_PERSONNEL_CODE =  "SELECT * FROM personnel WHERE personnelCode = ?";
 
+    @Remove
     public PersonnelDao() {
         try {
             SimpleConnectionPool connectionPool = new SimpleConnectionPool();
@@ -51,7 +54,7 @@ public class PersonnelDao {
         }
     }
 
-    public Optional<Personnel> insert(Personnel entity) throws SQLException {
+    public Optional<Personnel> createPersonnel(Personnel entity) throws SQLException {
         try (Connection connection = SimpleConnectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS)) {
             connection.setAutoCommit(true);

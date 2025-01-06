@@ -12,17 +12,19 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@Stateless
-@LocalBean
+//@Stateless
+//@LocalBean
 public class LeaveService {
 
     @Inject
-    LeaveDao leaveDao;
+    private LeaveDao leaveDao;
 
     @Inject
-    PersonnelDao personnelDao;
+    private PersonnelDao personnelDao;
 
-    public LeaveService() {
+    public LeaveService() throws SQLException {
+        this.leaveDao = new LeaveDao();
+        this.personnelDao = new PersonnelDao();
     }
 
     public Optional<Leave> insert(Leave entity) {
