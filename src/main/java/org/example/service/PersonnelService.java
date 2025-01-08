@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Named("personnelService")
 public class PersonnelService {
 
     @Inject

@@ -3,6 +3,7 @@ package org.example.service;
 import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import org.example.dao.LeaveDao;
 import org.example.dao.PersonnelDao;
 import org.example.entity.Leave;
@@ -12,8 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-//@Stateless
-//@LocalBean
+@Named("leaveService")
 public class LeaveService {
 
     @Inject
