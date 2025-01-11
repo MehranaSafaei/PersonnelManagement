@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "leave")
-public class Leave {
+public class Leave implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,8 +25,8 @@ public class Leave {
     @Size(max = 500, message = "Description must be less than 500 characters")
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    private LeaveStatus status;
+//    @Enumerated(EnumType.STRING)
+//    private LeaveStatus status;
   /*  @NotNull(message = "Personnel ID cannot be null")
     private Long personnelId;*/
 
@@ -41,12 +42,11 @@ public class Leave {
 
     }
 
-    public Leave(long id, LocalDate startDate, LocalDate endDate, String description, LeaveStatus status, LocalDateTime loginTime, Personnel personnel) {
+    public Leave(long id, LocalDate startDate, LocalDate endDate, String description, LocalDateTime loginTime, Personnel personnel) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
-        this.status = status;
         this.loginTime = loginTime;
         this.personnel = personnel;
     }
@@ -83,14 +83,6 @@ public class Leave {
         this.description = description;
     }
 
-    public LeaveStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(LeaveStatus status) {
-        this.status = status;
-    }
-
     public LocalDateTime getLoginTime() {
         return loginTime;
     }
@@ -112,11 +104,11 @@ public class Leave {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Leave leave = (Leave) o;
-        return id == leave.id && Objects.equals(startDate, leave.startDate) && Objects.equals(endDate, leave.endDate) && Objects.equals(description, leave.description) && status == leave.status && Objects.equals(loginTime, leave.loginTime) && Objects.equals(personnel, leave.personnel);
+        return id == leave.id && Objects.equals(startDate, leave.startDate) && Objects.equals(endDate, leave.endDate) && Objects.equals(description, leave.description) && Objects.equals(loginTime, leave.loginTime) && Objects.equals(personnel, leave.personnel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, startDate, endDate, description, status, loginTime, personnel);
+        return Objects.hash(id, startDate, endDate, description, loginTime, personnel);
     }
 }

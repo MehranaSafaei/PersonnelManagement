@@ -29,7 +29,7 @@ public class LeaveService {
 
     public Optional<Leave> insert(Leave entity) {
         try {
-            return leaveDao.insert(entity);
+            return leaveDao.save(entity);
         } catch (SQLException e) {
             throw new RuntimeException("Error inserting leave: " + e.getMessage(), e);
         }
@@ -43,36 +43,5 @@ public class LeaveService {
         }
     }
 
-    public void addLeaveByPersonnelCode(long personnelCode, Leave leave) {
-        try {
-            Personnel personnel = personnelDao.findByPersonnelCode(personnelCode);
-            if (personnel == null) {
-                throw new IllegalArgumentException("Personnel with code " + personnelCode + " not found");
-            }
-            leave.setPersonnel(personnel);
-            leaveDao.insert(leave);
-        } catch (SQLException e) {
-            throw new RuntimeException("Error adding leave for personnel: " + e.getMessage(), e);
-        }
-    }
 
-    public List<Leave> findLeavesByPersonnelCode(Long personnelCode) {
-        try {
-            return leaveDao.findLeaveByPersonnelCode(personnelCode);
-        } catch (SQLException e) {
-            throw new RuntimeException("Error fetching leaves by personnel code: " + e.getMessage(), e);
-        }
-    }
-
-    public List<Leave> findLeaveByUsername(String username) {
-        return leaveDao.getByName(username);
-    }
-
-    public List<Leave> findLeaveByPersonnelId(Long personnelId) {
-        try {
-            return leaveDao.findLeaveByPersonnelId(personnelId);
-        } catch (SQLException e) {
-            throw new RuntimeException("Error fetching leaves by personnel ID: " + e.getMessage(), e);
-        }
-    }
 }

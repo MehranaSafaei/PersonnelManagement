@@ -43,15 +43,10 @@ public class PersonnelService {
         return personnelDao.getById(id);
     }
 
-    public void deleteById(long id) {
-        personnelDao.delete(id);
-    }
-
     public List<Personnel> findPersonnelByName(String name) {
         return personnelDao.getByName(name);
     }
-
-    public void deleteByPersonnelCode(long personnelCode) {
-        personnelDao.delete(personnelCode);
+    public void deleteById(long id) {
+        personnelDao.delete(id);
     }
 }
