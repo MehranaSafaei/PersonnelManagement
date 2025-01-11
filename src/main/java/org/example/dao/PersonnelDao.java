@@ -1,8 +1,6 @@
 package org.example.dao;
 
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.Dependent;
 import org.example.connection.SimpleConnectionPool;
 import org.example.entity.Personnel;
 import org.hibernate.Remove;
