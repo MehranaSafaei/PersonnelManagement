@@ -55,10 +55,10 @@ public class Main {
                     case 7:
                         viewList(sc);
                         break;
-//                    case 8:
-//                        viewLeaveListByUsername(sc);
-//                        break;
                     case 8:
+                        viewLeaveListByUsername(sc);
+                        break;
+                    case 9:
                         System.out.println("Goodbye!");
                         sc.close();
                         running = false;
@@ -88,8 +88,8 @@ public class Main {
         System.out.println("5) Search by Name");
         System.out.println("6) Add Leave");
         System.out.println("7) view Leave List");
-//        System.out.println("8) view List By username");
-        System.out.println("8) Exit");
+        System.out.println("8) view List By username");
+        System.out.println("9) Exit");
     }
 
     public static Optional<Personnel> insert(Scanner sc) throws SQLException {
@@ -101,7 +101,6 @@ public class Main {
         String mobile = sc.nextLine();
         System.out.print("Enter your personnel code: ");
         int personnelCode = sc.nextInt();
-        sc.nextLine();
         System.out.print("Enter your email: ");
         String email = sc.next();
 
@@ -239,33 +238,33 @@ public class Main {
         return leaveList;
     }
 
-//    public static List<Leave> viewLeaveListByUsername(Scanner sc) throws SQLException {
-//        List<Leave> leaveList = new ArrayList<>();
-//        LeaveService leaveService = new LeaveService();
-//
-//        System.out.print("Enter your username: ");
-//        String username = sc.nextLine();
-//
-//        PersonnelService personnelService = new PersonnelService();
-//        List<Personnel> personnel = personnelService.findPersonnelByName(username);
-//        if (personnel.isEmpty()) {
-//            System.out.println("No personnel found with the username: " + username);
-//            return leaveList;
-//        }
-////            if (personnel.isEmpty()) return System.out.println(STR."No personnel found with the username: \{username}"), leaveList;
-//
-//        Long personnelId = personnel.getFirst().getId();
-//        leaveList = leaveService.findLeaveByPersonnelId(personnelId);
-//        if (leaveList.isEmpty()) {
-//            System.out.println("No leave records found for username: " + username);
-//        } else {
-//            System.out.println("Leave records for username: " + username + " - " + leaveList.size());
-//            for (Leave leave : leaveList) {
-//                System.out.println(leave);
-//            }
-//        }
-////            System.out.println(leaveList.isEmpty() ? STR."No leave records found for username: \{username}" : STR."Leave records for username: \{username}");
-////            if (!leaveList.isEmpty()) leaveList.forEach(System.out::println);
-//        return leaveList;
-//    }
+    public static List<Leave> viewLeaveListByUsername(Scanner sc) throws SQLException {
+        List<Leave> leaveList = new ArrayList<>();
+        LeaveService leaveService = new LeaveService();
+
+        System.out.print("Enter your username: ");
+        String username = sc.nextLine();
+
+        PersonnelService personnelService = new PersonnelService();
+        List<Personnel> personnel = personnelService.findPersonnelByName(username);
+        if (personnel.isEmpty()) {
+            System.out.println("No personnel found with the username: " + username);
+            return leaveList;
+        }
+//            if (personnel.isEmpty()) return System.out.println(STR."No personnel found with the username: \{username}"), leaveList;
+
+        Long personnelId = personnel.getFirst().getId();
+        leaveList = leaveService.findLeaveByPersonnelId(personnelId);
+        if (leaveList.isEmpty()) {
+            System.out.println("No leave records found for username: " + username);
+        } else {
+            System.out.println("Leave records for username: " + username + " - " + leaveList.size());
+            for (Leave leave : leaveList) {
+                System.out.println(leave);
+            }
+        }
+//            System.out.println(leaveList.isEmpty() ? STR."No leave records found for username: \{username}" : STR."Leave records for username: \{username}");
+//            if (!leaveList.isEmpty()) leaveList.forEach(System.out::println);
+        return leaveList;
+    }
 }

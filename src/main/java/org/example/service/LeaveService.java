@@ -16,18 +16,9 @@ import java.util.Optional;
 @Named("leaveService")
 public class LeaveService {
 
-    @Inject
-    private LeaveDao leaveDao;
 
-    @Inject
-    private PersonnelDao personnelDao;
-
-    public LeaveService() throws SQLException {
-        this.leaveDao = new LeaveDao();
-        this.personnelDao = new PersonnelDao();
-    }
-
-    public Optional<Leave> insert(Leave entity) {
+    public Optional<Leave> insert(Leave entity) throws SQLException {
+        LeaveDao leaveDao = new LeaveDao();
         try {
             return leaveDao.save(entity);
         } catch (SQLException e) {
@@ -35,7 +26,8 @@ public class LeaveService {
         }
     }
 
-    public List<Leave> findAll() {
+    public List<Leave> findAll() throws SQLException {
+        LeaveDao leaveDao = new LeaveDao();
         try {
             return leaveDao.findAll();
         } catch (SQLException e) {
@@ -43,5 +35,11 @@ public class LeaveService {
         }
     }
 
+    public List<Leave> findLeaveByPersonnelId(Long personnelId) throws SQLException {
+        LeaveDao leaveDao = new LeaveDao();
+        try {
+        return leaveDao.findLeaveByPersonnelId(personnelId);    } catch (SQLException e) {
+        throw new RuntimeException("Error fetching leaves by personnel ID: " + e.getMessage(), e);    }
+    }
 
 }
