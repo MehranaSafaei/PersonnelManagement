@@ -29,7 +29,6 @@ public class SimpleConnectionPool {
         }
     }
 
-    @Produces
     // create a new Connection
     private Connection createConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
@@ -55,7 +54,7 @@ public class SimpleConnectionPool {
     }
 
     // Close all Connections
-    public void closeAllConnections(@Disposes Connection disposedConnection) {
+    public void closeAllConnections(Connection disposedConnection) {
         // Close connections in availableConnections
         for (Connection conn : availableConnections) {
             try {

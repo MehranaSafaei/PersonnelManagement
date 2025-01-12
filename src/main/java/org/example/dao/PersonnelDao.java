@@ -26,26 +26,6 @@ public class PersonnelDao {
     private static final String SELECT_BY_EMAIL = "SELECT * FROM personnels WHERE email = ?";
     private static  final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnels";
 
-    //MySQL
-//    private static final String INSERT = "INSERT INTO personnel (username, mobile, personnelCode, email) VALUES (?, ?, ?, ?)";
-//    private static final String UPDATE = "UPDATE personnel SET username = ?, mobile = ?, personnelCode = ?, email = ? WHERE id = ?";
-//    private static final String DELETE = "DELETE FROM personnel WHERE id = ?";
-//    private static final String SELECT_ALL = "SELECT * FROM personnel";
-//    private static final String SELECT_BY_ID = "SELECT * FROM personnel WHERE id = ?";
-//    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnel WHERE username = ?";
-//    private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnel WHERE personnelCode = ?";
-//    private static final String SELECT_BY_EMAIL = "SELECT * FROM personnel WHERE email = ?";
-//    private static  final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnel";
-//
-//    private static final String INSERT = "INSERT INTO personnel (username, mobile, personnelCode) VALUES (?, ?, ?)";
-//    private static final String UPDATE = "UPDATE personnel SET username = ?, mobile = ?, personnelCode = ? WHERE id = ?";
-//    private static final String DELETE = "DELETE FROM personnel WHERE id = ?";
-//    private static final String SELECT_ALL = "SELECT * FROM personnel";
-//    private static final String SELECT_BY_ID = "SELECT * FROM personnel WHERE id = ?";
-//    private static final String SELECT_BY_USERNAME = "SELECT * FROM personnel WHERE username = ?";
-//    private static final String SELECT_BY_PERSONNEL_CODE =  "SELECT * FROM personnel WHERE personnelCode = ?";
-
-    @Remove
     public PersonnelDao() {
         try {
             SimpleConnectionPool connectionPool = new SimpleConnectionPool();

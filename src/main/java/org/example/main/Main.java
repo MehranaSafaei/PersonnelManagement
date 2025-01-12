@@ -231,9 +231,9 @@ public class Main {
     public static List<Leave> viewList(Scanner sc) throws SQLException {
         LeaveService leaveService = new LeaveService();
         List<Leave> leaveList = leaveService.findAll();
-        System.out.println("Start Date - End Date - Description - Personnel ID - loginTime");
+        System.out.println("Start Date - End Date - Description - Personnel ID - loginTime - status");
         for (Leave leave : leaveList) {
-            System.out.println(leave.getStartDate() + " - " + leave.getEndDate() + " - " + leave.getDescription() + " - " + leave.getPersonnel() + " - " + leave.getLoginTime());
+            System.out.println(leave.getStartDate() + " - " + leave.getEndDate() + " - " + leave.getDescription() + " - " + leave.getPersonnel() + " - " + leave.getLoginTime() + " - " + leave.getLeaveStatus());
         }
         return leaveList;
     }

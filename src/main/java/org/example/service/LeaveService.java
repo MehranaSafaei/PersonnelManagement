@@ -7,6 +7,7 @@ import jakarta.inject.Named;
 import org.example.dao.LeaveDao;
 import org.example.dao.PersonnelDao;
 import org.example.entity.Leave;
+import org.example.entity.LeaveStatus;
 import org.example.entity.Personnel;
 
 import java.sql.SQLException;

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +43,7 @@ public class Personnel implements Serializable {
         this.mobile = mobile;
         this.personnelCode = personnelCode;
         this.email = email;
+        this.leaves = new ArrayList<>();
     }
 
     public Long getId() {
@@ -84,9 +86,24 @@ public class Personnel implements Serializable {
         this.email = email;
     }
 
+    public List<Leave> getLeaves() {
+        return leaves;
+    }
+    public void setLeaves(List<Leave> leaves) {
+        this.leaves = leaves;
+    }
+
+
     @Override
     public String toString() {
-        return "Personnel{" + "id=" + id + ", userName='" + userName + '\'' + ", mobile='" + mobile + '\'' + ", personnelCode=" + personnelCode + '\'' + ", email='" + email + '}';
+        return "Personnel{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", personnelCode=" + personnelCode +
+                ", email='" + email + '\'' +
+                ", leaves=" + leaves +
+                '}';
     }
 
     @Override

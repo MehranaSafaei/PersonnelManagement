@@ -24,8 +24,8 @@ public class Leave implements Serializable {
     @Size(max = 500, message = "Description must be less than 500 characters")
     private String description;
 
-//    @Enumerated(EnumType.STRING)
-//    private LeaveStatus status;
+    @Enumerated(EnumType.STRING)
+    private LeaveStatus leaveStatus;
   /*  @NotNull(message = "Personnel ID cannot be null")
     private Long personnelId;*/
 
@@ -34,18 +34,17 @@ public class Leave implements Serializable {
     @JoinColumn(name = "personnel_id", insertable = false, updatable = false)
     private Personnel personnel;
 
-
-
     public Leave() {
         super();
 
     }
 
-    public Leave(long id, LocalDate startDate, LocalDate endDate, String description, LocalDateTime loginTime, Personnel personnel) {
+    public Leave(long id, LocalDate startDate, LocalDate endDate, String description, LeaveStatus leaveStatus, LocalDateTime loginTime, Personnel personnel) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
+        this.leaveStatus = leaveStatus;
         this.loginTime = loginTime;
         this.personnel = personnel;
     }
@@ -58,28 +57,36 @@ public class Leave implements Serializable {
         this.id = id;
     }
 
-    public @NotNull(message = "Start date cannot be null") LocalDate getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(@NotNull(message = "Start date cannot be null") LocalDate startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public @NotNull(message = "End date cannot be null") LocalDate getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(@NotNull(message = "End date cannot be null") LocalDate endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
-    public @Size(max = 500, message = "Description must be less than 500 characters") String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(@Size(max = 500, message = "Description must be less than 500 characters") String description) {
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LeaveStatus getLeaveStatus() {
+        return leaveStatus;
+    }
+
+    public void setLeaveStatus(LeaveStatus leaveStatus) {
+        this.leaveStatus = leaveStatus;
     }
 
     public LocalDateTime getLoginTime() {
@@ -99,15 +106,27 @@ public class Leave implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Leave{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", description='" + description + '\'' +
+                ", leaveStatus=" + leaveStatus +
+                ", loginTime=" + loginTime +
+                ", personnel=" + personnel +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Leave leave = (Leave) o;
-        return id == leave.id && Objects.equals(startDate, leave.startDate) && Objects.equals(endDate, leave.endDate) && Objects.equals(description, leave.description) && Objects.equals(loginTime, leave.loginTime) && Objects.equals(personnel, leave.personnel);
+        return id == leave.id && Objects.equals(startDate, leave.startDate) && Objects.equals(endDate, leave.endDate) && Objects.equals(description, leave.description) && leaveStatus == leave.leaveStatus && Objects.equals(loginTime, leave.loginTime) && Objects.equals(personnel, leave.personnel);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, startDate, endDate, description, loginTime, personnel);
+        return Objects.hash(id, startDate, endDate, description, leaveStatus, loginTime, personnel);
     }
 }
