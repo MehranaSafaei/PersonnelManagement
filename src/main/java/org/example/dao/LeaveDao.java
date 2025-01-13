@@ -170,12 +170,12 @@ public class LeaveDao {
                 while (resultSet.next()) {
                     Leave leave = new Leave();
                     leave.setId(resultSet.getInt("id"));
-//                    leave.setPersonnelId(resultSet.getLong("personnelId")); // Use personnelId instead of personnelCode
+//                    leave.setPersonnelId(resultSet.getLong("personnelId"));
                     leave.setDescription(resultSet.getString("description"));
                     leave.setStartDate(resultSet.getDate("startDate").toLocalDate());
                     leave.setEndDate(resultSet.getDate("endDate").toLocalDate());
                     Personnel personnel = new Personnel();
-                    personnel.setId(resultSet.getLong("personnel_id"));
+                    personnel.setId(resultSet.getLong("personnelId"));
                     leave.setPersonnel(personnel);
 
                     leaveList.add(leave);

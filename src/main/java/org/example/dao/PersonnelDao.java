@@ -4,6 +4,7 @@ package org.example.dao;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Dependent;
 import org.example.connection.SimpleConnectionPool;
+import org.example.entity.LeaveStatus;
 import org.example.entity.Personnel;
 import org.hibernate.Remove;
 
@@ -24,7 +25,7 @@ public class PersonnelDao {
     private static final String SELECT_BY_USERNAME = "SELECT * FROM personnels WHERE username = ?";
     private static final String SELECT_BY_PERSONNEL_CODE = "SELECT * FROM personnels WHERE personnelCode = ?";
     private static final String SELECT_BY_EMAIL = "SELECT * FROM personnels WHERE email = ?";
-    private static  final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnels";
+    private static final String COUNT_PERSONNEL = "SELECT COUNT(*) FROM personnels";
 
     public PersonnelDao() {
         try {
@@ -93,15 +94,14 @@ public class PersonnelDao {
             statement.setString(1, username); // Parameterize the query
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    // Map each row of the ResultSet to a Personnel object
                     Personnel personnel = mapResultSetToPersonnel(resultSet);
                     personnelList.add(personnel);
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Log the exception
+            e.printStackTrace();
         }
-        return personnelList; // Return the populated list
+        return personnelList;
     }
 
     public Personnel update(Personnel entity) {
@@ -136,22 +136,6 @@ public class PersonnelDao {
         }
     }
 
-    public int countAll() {
-        try (Connection connection = SimpleConnectionPool.getConnection();
-             PreparedStatement statement = connection.prepareStatement(COUNT_PERSONNEL);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            if (resultSet.next()) {
-                return resultSet.getInt(1); // تعداد رکوردها
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return 0;
-    }
-
 
     public Personnel findByPersonnelCode(long personnelCode) {
         Personnel personnel = null;
@@ -171,6 +155,7 @@ public class PersonnelDao {
         return personnel; // Return the found Personnel object or null if not found
     }
 
+
     private Personnel mapResultSetToPersonnel(ResultSet resultSet) throws SQLException {
         return new Personnel(
                 resultSet.getLong("id"),
@@ -178,6 +163,7 @@ public class PersonnelDao {
                 resultSet.getString("mobile"),
                 resultSet.getLong("PersonnelCode"),
                 resultSet.getString("email")
+
         );
     }
 

@@ -9,26 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table(name = "Personnel")
+
 public class Personnel implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-
-    @Size(max = 50, message = "User name must be less than 50 characters")
     private String userName;
-
-    @Size(max = 15, message = "Mobile number must be less than 15 characters")
     private String mobile;
-
     private Long personnelCode;
-
-    @Size(max = 100, message = "Email must be less than 100 characters")
-    @NotNull
     private String email;
-
-    @OneToMany(mappedBy = "personnel", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Leave> leaves;
 
 
@@ -49,7 +37,6 @@ public class Personnel implements Serializable {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -57,7 +44,6 @@ public class Personnel implements Serializable {
     public String getUserName() {
         return userName;
     }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -65,7 +51,6 @@ public class Personnel implements Serializable {
     public String getMobile() {
         return mobile;
     }
-
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
@@ -73,7 +58,6 @@ public class Personnel implements Serializable {
     public Long getPersonnelCode() {
         return personnelCode;
     }
-
     public void setPersonnelCode(Long personnelCode) {
         this.personnelCode = personnelCode;
     }
@@ -81,7 +65,6 @@ public class Personnel implements Serializable {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }

@@ -39,7 +39,8 @@ public class LeaveService {
     public List<Leave> findLeaveByPersonnelId(Long personnelId) throws SQLException {
         LeaveDao leaveDao = new LeaveDao();
         try {
-        return leaveDao.findLeaveByPersonnelId(personnelId);    } catch (SQLException e) {
+        return leaveDao.findLeaveByPersonnelId(personnelId);
+        } catch (SQLException e) {
         throw new RuntimeException("Error fetching leaves by personnel ID: " + e.getMessage(), e);    }
     }
 

@@ -9,30 +9,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
-@Table(name = "leave")
+
 public class Leave implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
-    @NotNull(message = "Start date cannot be null")
     private LocalDate startDate;
-
-    @NotNull(message = "End date cannot be null")
     private LocalDate endDate;
-
-    @Size(max = 500, message = "Description must be less than 500 characters")
     private String description;
-
-    @Enumerated(EnumType.STRING)
     private LeaveStatus leaveStatus;
-  /*  @NotNull(message = "Personnel ID cannot be null")
-    private Long personnelId;*/
-
     private LocalDateTime loginTime;
-    @ManyToOne
-    @JoinColumn(name = "personnel_id", insertable = false, updatable = false)
     private Personnel personnel;
+
 
     public Leave() {
         super();
@@ -52,7 +39,6 @@ public class Leave implements Serializable {
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -60,7 +46,6 @@ public class Leave implements Serializable {
     public LocalDate getStartDate() {
         return startDate;
     }
-
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
@@ -68,7 +53,6 @@ public class Leave implements Serializable {
     public LocalDate getEndDate() {
         return endDate;
     }
-
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
@@ -76,7 +60,6 @@ public class Leave implements Serializable {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -84,7 +67,6 @@ public class Leave implements Serializable {
     public LeaveStatus getLeaveStatus() {
         return leaveStatus;
     }
-
     public void setLeaveStatus(LeaveStatus leaveStatus) {
         this.leaveStatus = leaveStatus;
     }
@@ -92,7 +74,6 @@ public class Leave implements Serializable {
     public LocalDateTime getLoginTime() {
         return loginTime;
     }
-
     public void setLoginTime(LocalDateTime loginTime) {
         this.loginTime = loginTime;
     }
@@ -100,7 +81,6 @@ public class Leave implements Serializable {
     public Personnel getPersonnel() {
         return personnel;
     }
-
     public void setPersonnel(Personnel personnel) {
         this.personnel = personnel;
     }
@@ -130,3 +110,6 @@ public class Leave implements Serializable {
         return Objects.hash(id, startDate, endDate, description, leaveStatus, loginTime, personnel);
     }
 }
+
+  /*  @NotNull(message = "Personnel ID cannot be null")
+    private Long personnelId;*/
